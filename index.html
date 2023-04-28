@@ -122,5 +122,42 @@
 		<li>MST topology can be tuned for root bridge placement, just like PVST+ and RSTP - TRUE</li>
 		<li>MST regions can interact with PVST+/RSTP in which of the following ways? MST region is root bridge for all VLAN.s PVST+/RSTP topology is root bridge for all VLANs</li>
 	</ul>
+    <p>802.1D and 802.1Q standard supports one STP instance for everything. Basically, Common Spanning Tree (CST)</p>
+    <P>PVST can have different root bridges or port cost per VLAN basis. Not scalable with BPDU's and STP operations for each VLAN.</P>
+    <p>MST maps 1 or more VLANs onto single STP tree or MST instance (MSTI).</p>
+    <p>MST region - grouping of MST switches w/same high-level config</p>
+    <p>MST always has instance 0 called internal spanning tree (IST) - covers all switchport interfaces in MST region regardless of VLAN. So only 1 set of BPDU's needed and minimizes STP calculations.</p>
+    <pre>
+        spanning tree mode MST
+        spanning-tree mst 0 root primary
+        spanning-tree mst 1 root primary
+        spanning-tree mst 2 root primary
+        spanning-tree mst configuration
+        name MST_CORE
+        revision 2
+        instance 1 vlan 10,20
+        instance 2 vlan 99
+        show spanning-tree mst configuration
+        show spanning-tree mst 0
+    </pre>
+    <p>MST misconfigs - VLAN assignment to IST, or trunk link pruning. Make sure to prune all VLAN in same MST instance for a trunk.  MSTI topology won't update to compensate.</p>
+    <p>MST region boundary - port that connects to different MST region or 802.1D/802.1W BPDU's</p>
+    <p>PVST simulation mechanism - Way to propagate CST at MST region boundary. Sends PVST+/RSTP BPDU's for each VLAN based on IST. Maps BPDU from VLAN 1 to IST instance. Triggers when PVST BPDU is received.</p>
+    <p>Basically, VLAN 1 becomes 1-to-many translation from IST BPDUs to all PVST BPDUs.</p>
+    <p>PVST simulation check - MST switch blocks port of superior BPDU and put into root inconsistent state.</p>
+    <h2>Ch.5 VLAN Trunks and EtherChannel Bundles</h2>
+    <ul>
+        <li>"Proxy" is not a VTP switch role</li>
+        <li>VTP summary advertisements doni't include VLANS that were recently added/deleted/modified</li>
+        <li>Multiple switches can be VTP servers</li>
+        <li>Moved switch can update VTP server and deletes VLANS - common disaster scenario</li>
+        <li>Two switches with "switchport mode dynamic auto" on each end will connect - FALSE</li>
+        <li>switchport nonegotiate - prevents DTP from communicating and agreeing to be a trunk</li>
+        <li>PAgP is an industry standard dynamic link aggregation protocol - FALSE</li>
+        <li>EtherChannel bundle allows link aggregation for access, trunk, and routed ports</li>
+        <li>EtherChannel benefits - reudction of topology changes/convergence, increased bandwidth</li>
+        <li>EtherChannel w/auto requires Desirable on other end</li>
+        <li>LACP and PAgP allows you to set max # of member links - FALSE</li>
+    </ul>
   </body>
 </html>
