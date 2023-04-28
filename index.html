@@ -1,1 +1,126 @@
-Hello World
+<!doctype html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ENCOR Study Notes</title>
+    </style>
+  </head>
+  <body>
+    <h1>CCNP ENCOR Study Notes</h1>
+    <h2>Ch.1 Packet Forwarding</h2>
+	<ul>
+		<li>Forwarding L2 traffic uses - Dest MAC</li>
+		<li>Network device that reduces collision domain - Switch </li>
+		<li>Forwarding L3 traffic uses - Dest IP</li>
+		<li>Network device that reduces broadcast domain - Router</li>
+		<li>The CAM table is directly correlated to the MAC table</li>
+		<li>Distributed forwarding architecture provides increased port density and forwarding scalability</li>
+		<li>CEF is composed of forwarding information base and adjacency table</li>
+	</ul>
+	<b>802.1Q Header</b>
+	<ul>
+		<li>Tag protocol identifier (TPID) - 16 bit 0x8100 to identify as 802.1Q packet.</li>
+		<li>Priority code point (PCP) - 3 bit CoS for L2 QoS.</li>
+		<li>Drop eligible indicator (DEI) - 1 bit to check if packet can be dropped if there's bandwidth contention</li>
+		<li>VLAN identifier (VLAN ID)</li>
+	</ul>
+	<p>Process switching - software switching for packets with IP options, extra information, e.g, ARP. Or packets src/deset to router using control traffic/routing protocols</p>
+	<p>Cisco Express Forwarding - default switching mechanism for all Cisco devices that uses ASIC's and network processing units (NPU)'s.</p>
+	<p>TCAM - allows matching/evaluating packet on more than one field. Extends CAM architecture. 0,1,X - true false, don't care. Stored in value, mask, result (VMR) format. Value - fields to be searched, mask - scope of query, result - action to be taken.
+	TCAM operates on hardware, so faster than software switching. L2/L3, security, QoS decisions happen simultaneously.</p>
+	<p>Centralized Forwarding - When route processor (RP) has forwarding engine to make all packet switching decisions.</p>
+	<p>Distributed Forwarding - When line cards have forwarding engines to make packet switching decisions without RP</p>
+	<p>Software CEF - Combo of Forwarding Information Baase and Adjacency Table. FIB - Built from routing table, has next-hop IP for all dest in network. CEF uses FIB for IP dest prefix-based decisions. Adj table - Has next-hop IP and next-hop MAC and egress int MAC, generated from ARP or other L2 protocol tables.</p>
+	<p>Hardware CEF - programmable, firmware easy to update. Unlike ASIC that are hardwired and expensive.</p>
+	<p>Stateful switchover - RP learns network topology and builds route table (RIB). SSO - redundancy feature to have two RP's sync router config and control plane state. Mirroring info called "checkpointing". Enabling nonstop forwarding NSF or nonstop routing NSR makes router maintain CEF entries for a short while instead of purging everything when failing over</p>
+    <h2>Ch.2 Spanning Tree Protocol</h2>
+	<ul>
+		<li>There are 2 BDPU types - config BPDU and topology change notification (TCN) BPDU</li>
+		<li>Bridge prioriy is used to elect root bridge</li>
+		<li>802.1D spec assigned value 4 to 1 Gbps int</li>
+		<li>All ports on root bridge are designated ports</li>
+		<li>Port stays on listening state for 15s</li>
+		<li>Downstream switches with config BPDU with topology change flag set flushes all old MAC addresses</li>
+		<li>Blocking and listening aren't RSTP port states</li>
+		<li>L2 topology, infra must fully converge before packets can be forwarded. FALSE.</li>
+		<li>L2 topology with RSTP, infra must fully converge before packets can forward. FALSE.</li>
+	</ul>
+	<p>STP has multiple iterations</p>
+	<ul>
+		<li>802.1D Original Spanning Tree</li>
+		<li> Per-VLAN Spanning Tree PVST and PVST+</li>
+		<li> 802.1W Rapid Spanning Tree (RSTP) </li>
+		<li> 802.1S Multiple Spanning Tree (MST) </li>
+	</ul>
+	<p> 802.1D Port States </p>
+	<ul>
+		<li>Disabled - Shut</li>
+		<li>Blocking - Blocking traffic so there's no loops</li>
+		<li>Listening - Transition from blocking state to send/receive BPDU's. Duration correlates to STP forwarding time.</li>
+		<li>Learning - Switch can now modify MAC table, only forward BPDU's, no other traffic</li>
+		<li>Forwarding - Forwards all traffic and updates MAC table</li>
+		<li>Broken - Config/operation problem, traffic discarded</li>
+	</ul>
+	<p>Port Types</p>
+	<ul>
+		<li>Root port (RP) - Port that connects to root bridge, only 1 per VLAN</li>
+		<li>Desginated port (DP) - Receives/forwards BPDU frames to other switches downstream, only 1 per link</li>
+		<li>Blocking port - Not forwarding traffic cuz STP</li>
+	</ul>
+	<p>TCN BPDU - sent by switch that detected change out to root bridge. Root bridge creates config BPDU with topology change flag set to all downstream switches. this flushes all old MAC addresses but maintains active MAC's</p>
+	<p> 802.1W Port States </p>
+	<ul>
+		<li>Discarding - Enabled but not forwarding any traffic. combo of disabled, blocking, listening</li>
+		<li>Learning- Learns MAC entries but only forwards BPDU's</li>
+		<li>Forwarding - Learns and forwards all traffic</li>
+	</ul>
+	<p> 802.1W Port Roles </p>
+	<ul>
+		<li>Alternate Port - Alternate connectivity toward root switch through different switch</li>
+		<li>Backup port - Link redundancy toward current root switch, Cannot guarantee connectivity to root bridge, only exists when multiple links connect between same switches</li>
+	</ul>
+	<p> 802.1W Port Types </p>
+	<ul>
+		<li>Edge port - where hosts connect to L2 topology with one interface and cannot form loop. i.e, portfast</li>
+		<li>Root port - best path cost towards root bridge, 1 per switch</li>
+		<li>Point-to-point port - Any port that connects to another RSTP switch with full duplex</li>
+	</ul>
+    <h2>Ch.3 Advanced STP Tuning</h2>
+	<ul>
+		<li>STP priority configured in increments of 4096</li>
+		<li>Advertised path cost includes advertising link's port cost as part of the config BPDU advertisement - FALSE</li>
+		<li>Switch port with lowest STP port priority is preferred - TRUE</li>
+		<li>When BPDU is received with BPDU guard, syslog is generated and port is shut into errDisable</li>
+		<li>Root guard - Port is shut if superior BPDU is received</li>
+		<li>UDLD solves problem of cable sending traffic in only one direction</li>
+	</ul>
+	<p> Setting root bridge primary - 24,576. secondary - 28,672</p>
+	<p>STP port cost does NOT include cost of port the BPDU is being advertised out of </p>
+	<p>STP loop symptoms</p>
+	<ul>
+		<li>STP disabled</li>
+		<li>Misconfigured load balancer w/traffic out multiple ports w/same MAC</li>
+		<li>Misconfigured vSwitch that bridges two phys ports</li>
+		<li>End users using dumb switch/hub</li>
+	</ul>
+	<p>Portfast - disables TCN generation for access ports, bypasses learning/listening states</p>
+	<p>BPDU filter - blocks BPDU's from transimtted through port.</p>
+	<p>Err recovery serviec defaults to 5 min / 300s</p>
+	<p>STP loop guard - prevents alternative/root ports from becoming designated ports (DP) if BPDU's are lost on current root port. Places original port in errDisable when BPDU's not being received </p>
+	<p>Unidirectional Link Detection (UDLD) - bidirectional monitoring of fiber. Sends UDLD packets of system and port ID of src int. Receiving end repeats back packet including its own system and port ID.
+	<ul>
+		<li>Normal mode - If frame not acknowledged, link considered undetermined but port stays active</li>
+		<li>Aggressiev mode - If frame not acknowledged, send another 8 packets in 1s intervals, then if that fials, errDisable</li>
+	</ul>
+    <h2>Ch.4 Multiple Spanning Tree Protocol</h2>
+	<ul>
+		<li>What does MST solve? Traffic load balancing for specific VLANs and reduces CPU/mem for env w/lots of VLANs</li>
+		<li>With MST, VLANs are associated with instances</li>
+		<li>CST and 802.1D have what in common? They only support 1 topology</li>
+		<li>MST root bridge advertises the VLAN-to-instance mappings to all other MST switches - FALSE</li>
+		<li>MST config version is locally significant - FALSE</li>
+		<li>MST topology can be tuned for root bridge placement, just like PVST+ and RSTP - TRUE</li>
+		<li>MST regions can interact with PVST+/RSTP in which of the following ways? MST region is root bridge for all VLAN.s PVST+/RSTP topology is root bridge for all VLANs</li>
+	</ul>
+  </body>
+</html>
