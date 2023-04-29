@@ -159,5 +159,60 @@
         <li>EtherChannel w/auto requires Desirable on other end</li>
         <li>LACP and PAgP allows you to set max # of member links - FALSE</li>
     </ul>
+    <p>VTP Roles: Server, Client, Transparent, Off</p>
+    <p>VTP Communication, uses multicast, 3 types of ads</p>
+    <ul>
+        <li>Summary - every 300s or when VLAN added/removed/changed, includes VTP version, domain, conf version, timestamp</li>
+        <li>Subset - After VLAN config change, contains all info for switches to update VLAN</li>
+        <li>Client requests - Client request to see detailed subset ad. Happens when switch gets higher revision # after joining domain</li> 
+    </ul>
+    <P> DTP dynamic desirable vs auto</p>
+    <p> PAgP desirable vs auto</p>
+    <p>LACP defaults 30s packet send, fails after 3 intervals or 90s. Use "lacp rate fast" to make it 3 intervals of 1s. PAgP has no equivalent.</p>
+    <p>Verify EtherChannel has same port type, mode, native VLAN, allowed VLAN, speed, duplex, MTU, load interval, storm control</p>
+    <pre>
+        port-channel min-links 1
+        port-channel max-links 8
+        show lacp counters
+        show etherchannel port
+        show lacp neighbor detail
+        lacp system-priority
+        lacp port-priority
+        show etherchannel load-balance
+    </pre>
+    <h2>Ch.6 IP Routing Essentials</h2>
+    <ul>
+        <li>BGP is an EGP</li>
+        <li>RIP, EIGRP, OSPF, IS-IS, are classified as IGPs</li>
+        <li>Path vector routing protocol finds best loop-free path with path attributes</li>
+        <li>Distance vector routing protocol finds best loop-free path with hop-count</li>
+        <li>Link-state routing protocol finds best loop-free path with path attributes</li>
+        <li>Router uses longest match as first criterion for forwarding packets</li>
+        <li>Router uses admin distance as second criterion for forwarding packets</li>
+        <li>Installing multiple paths from same routing protocol with same path metric into RIB is equal-cost multipathing</li>
+        <li>Static route type used to avoid forwarding paths with Ethernet link failure - fully specified static route</li>
+        <li>Virtual routing and forwarding (VRF) is useful with IPv4 and IPv6 addresses</li>
+    </ul>
+    <p>EIGRP path calculations - Uses bandwidth, delay, reliability, load, max MTU size. NOT hop count.</p>
+    <p>Path prefix length in FIB, programmed via RIB. Path selection has 3 components: Prefix length, admin dist, metrics</p>
+    <pre>
+        Connected 0
+        Static 1
+        EIGRP summary route 5
+        eBGP 20
+        EIGRP (internal) 90
+        OSPF 110
+        IS-IS 115
+        RIP 120
+        EIGRP (external) 170
+        iBGP 200
+    </pre>
+    <p>Equal-cost multipathing (ECMP) - Supported by RIP, EIGRP, OSPF, IS-IS</p>
+    <ul>
+        <li>Directly attached static routes - specify egress interface</li>
+        <li>Recursive static routes - specify next-hop IP</li>
+        <li>fully specified static routes - specify next-hop IP w/egress interface
+    </ul>
+    <p>floating static route - static route with custom AD other than 1</p>
   </body>
 </html>
