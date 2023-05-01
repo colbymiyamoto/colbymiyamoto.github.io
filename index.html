@@ -279,6 +279,50 @@
 	<h2>Ch.26 Network Device Access Control and Infrastructure Security</h2>
 	<h2>Ch.27 Network Virtualization</h2>
 	<h2>Ch.28 Foundational Network Programmability Concepts</h2>
+	<ul>
+		<li>DNAC HTTP auth uses which HTTP request? POST</li>
+		<li>CRUD - Create, read, update, delete</li>
+		<li>vManager Auth API header content-type? X-Auth-Token</li>
+		<li>HTTP status code for unauthorized? 403</li>
+		<li>DNAC token API, which auth method is used? X-Auth-Token</li>
+		<li>Two parts of a YANG model? Leaf, Container</li>
+	</ul>
 	<h2>Ch.29 Introduction to Network Automation Tools</h2>
+	<p>EEM - events and actions. EEM be triggered by event, user action, or TCL scripts.  Applet can execute TCL script</p>
+	<pre>
+		event manager applet LOOP0
+			event syslog pattern "Interface Loopback0.* down" period 1
+			action 1.0 cli command "enable"
+			action 2.0 cli command "config t"
+			action 3.0 cli command "int Loopback0"
+			action 4.0 cli command "shut"
+			action 5.0 cli command "no shut"
+			action 5.5 cli command "show int loopback0"
+			action 6.0 syslog msg "I've fallen, and I can't get up!"
+			action 7.0 mail server 10.0.25 to asdf@company.com
+				from no-reply@company.com subject "Loopback0 issues"
+				body "loopback 0 int was bounced, pls monitor." $_cli_result
+	</pre>
+	<p>If using AAA, include "event manager sesssion cli username $USERNAME.</p>
+	<pre>
+		debug event manager All
+		debug event manager action mail
+		debug event manager action cli
+	</pre>
+	<p>Puppet master / puppet agents - tasks executed within "puppet console" stored in "puppet database/puppetDB". Communicates via TCP.
+		3 installation types - monolithic (4k nodes), mono w/compile masters (4k-20k), mono w/compile masters and PE-postgreSQL (20k+).
+		Master of masters (MoM) for multiple distributed puppet masters and DB's. Puppet modules - manifests, templates, files.
+		Manifests - code that configures clients/nodes running the agent. Pushed via SSL. modules for different vendors, e.g, cisco_ios
+		that has multiple manifests and uses SSH. Puppet forge - community/website for modules/manifests/code.
+	</p>
+	<p>Chef - open source, written in Ruby and Erlang, uses Ruby code. Pushes configs, pulls for checks. Uses cookbooks and recipes.
+		"knife" CLI tool for upload cookbooks to chef server. Chef solo - local, chef client/server - distributed chef deployment (standard),
+		 hosted chef - cloud, private chef - all components in same network.
+	</p>
+	<p>SaltStack - Uses Python. Salt formulas - Instructions in YAML/DSL. Masters and minions. Uses 0MQ/ZeroMQ msging platform.
+		Reactor on master to listen for changes, beacon on minions notifies changes to reactor. Uses pillars/grains instead of modules/mnifests.	
+	</p>
+	<p>Puppet bolt - Agentless Ruby open-src tool, uses SSH/WinRM. Orchestrator-driven tasks or standalone tasks. Can use Python, Ruby, etc. scripts.</p>
+	<p>SaltStack SSH (Server-only mode) - Agentless, SSH/Python req on client systems. Installs temp SaltStack to execute on client.</p>
   </body>
 </html>
