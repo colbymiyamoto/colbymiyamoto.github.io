@@ -282,11 +282,13 @@
 	<ul>
 		<li>DNAC HTTP auth uses which HTTP request? POST</li>
 		<li>CRUD - Create, read, update, delete</li>
-		<li>vManager Auth API header content-type? X-Auth-Token</li>
-		<li>HTTP status code for unauthorized? 403</li>
-		<li>DNAC token API, which auth method is used? X-Auth-Token</li>
+		<li>vManager Auth API header content-type? x-www-form-urlencoded</li>
+		<li>HTTP status code for unauthorized? 401</li>
+		<li>DNAC token API, which auth method is used? Basic auth</li>
 		<li>Two parts of a YANG model? Leaf, Container</li>
 	</ul>
+	<p>Northbound API - controller to mgmt via TLS. Southbound API - mgmt to push host configs</p>
+	<p>POST - submits data, PUT - replaces data, PATCH - updates data</p>
 	<h2>Ch.29 Introduction to Network Automation Tools</h2>
 	<p>EEM - events and actions. EEM be triggered by event, user action, or TCL scripts.  Applet can execute TCL script</p>
 	<pre>
