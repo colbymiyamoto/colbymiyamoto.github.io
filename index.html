@@ -214,5 +214,71 @@
         <li>fully specified static routes - specify next-hop IP w/egress interface
     </ul>
     <p>floating static route - static route with custom AD other than 1</p>
+	<p>static null route - "ip route 1.1.1.1 255.255.255.0 Null0" drop traffic w/o ACL</p>
+	<p>ipv6 routing - enable with "ipv6 unicast-routing"</p>
+	<p>VRF - under the interfaces, put "vrf forwarding VRF_NAME" - can have overlapping IP ranges in different VRF instances</p>
+    <h2>Ch.7 EIGRP</h2>
+	<ul>
+		<li>EIGRP uses protocol 88</li>
+		<li>EIGRP uses five packet types for inter-router comms</li>
+		<li>EIGRP successor - next-hop router for path with lowest path metric for a dest prefix</li>
+		<li>EIGRP topology table attributes - dest net prefix, hoip count, max path bandwidth, list of EIGRP neighbors</li>
+		<li>EIGRP uses dest addr when feasible - 224.0.0.10 01:00:5E:00:00:0A</li>
+		<li>What value can be modified to manipulate EIGRP paths but not other routing protocols? interface delay</li>
+		<li>EIGRP uses int bandwidth of 10 Gbps</li>
+		<li>Default EIGRP hello timer is 5s</li>
+		<li>Path identified via EIGRP in stable fashion is considered - passive</li>
+		<li>EIGRP router indicates path computation necessary when - EIGRP sends out query with delay set to infinity</li>
+		<li>EIGRP summarization occurs for network prefixes as it crosses all network interfaces - FALSE</li>
+	</ul>
+	<p>EIGRP Terminology</p>
+	<ul>
+		<li>Successor route - route with lowest path metric to reach destination</li>
+		<li>Successor - first next-hop router for the successor route</li>
+		<li>Feasible distance (FD) - metric value for lowest-metric path to reach a destination</li>
+		<li>Reported distance (RD) - distance rported by another router to reach a prefix - also feasible distance for the advertising router</li>
+		<li>Feasibility condition - For a route to be considered a backup - reported distance recived must be less than feasible distance calculated locally - guarantees no loop</li>
+		<li>Feasible successor - Route that satisfies feasibility condition - the backup route</li>
+	</ul>
+	<p>EIGRP topology table - has network prefix, EIGRP neighbors, metrics (RD, hop count), values for calculating metric (load, reliability, totaly delay, min bandwidth)</p>
+	<p>EIGRP packet types - Hello, request, update, query, reply</p>
+	<p>Route summarization - EIGRP scalability depends on summarization, done on interface basis.</p>
+	<h2>Ch.8 OSPF</h2>
+	<h2>Ch.9 Advanced OSPF</h2>
+	<h2>Ch.10 OSPFv3</h2>
+	<h2>Ch.11 BGP</h2>
+	<h2>Ch.12 Advanced BGP</h2>
+	<h2>Ch.13 Multicast</h2>
+	<ul>
+		<li>Multicast known for - one-to-many</li>
+		<li>Protocols essential for multicast - PIM and IGMP</li>
+		<li>Which multicast address ranges match admin scoped block - </li>
+		<li>First 24 bits of a multicast MAC always start with - 01:5E:00</li>
+		<li>What does a host need to start receiving multicast traffic? Send unsolicited membership query</li>
+		<li>Diff between IGMPv2 and IGMPv3? - new IGMP membership report with source filtering support</li>
+		<li>IGMPv3 designed to work exclusively w/SSM and not backward compatible w/PIM-SM - FALSE</li>
+		<li>How to avoid L2 multicast flooding? Enable IGMP snooping</li>
+		<li>What best describes SPT and RPT? </li>
+		<li>What does an LHR do after it receives an IGMP join from a receiver? </li>
+		<li>What does an FHR do when an attached source becomes active and there are no interested receivers?</li>
+		<li>Which of the following is a group-to-RP mapping mechanism developed by Cisco? </li>
+		<li>When PIM is configured in dense mode, it is mandatory to choose one or more routers to operate as rendezvois points (RP) - FALSE</li>
+	</ul>
+	<h2>Ch.14 QoS</h2>
+	<h2>Ch.15 IP Services</h2>
+	<h2>Ch.16 Overlay Tunnels</h2>
+	<h2>Ch.17 Wireless Signals and Modulation</h2>
+	<h2>Ch.18 Wireless Infrastructure</h2>
+	<h2>Ch.19 Understanding Wireless Roaming and Location Services</h2>
+	<h2>Ch.20 Authenticating Wireless Clients</h2>
+	<h2>Ch.21 Troubleshooting Wireless Connectivity</h2>
+	<h2>Ch.22 Enterprise Network Architecture</h2>
+	<h2>Ch.23 Fabric Technologies</h2>
+	<h2>Ch.24 Network Assurance</h2>
+	<h2>Ch.25 Secure Network Access Control</h2>
+	<h2>Ch.26 Network Device Access Control and Infrastructure Security</h2>
+	<h2>Ch.27 Network Virtualization</h2>
+	<h2>Ch.28 Foundational Network Programmability Concepts</h2>
+	<h2>Ch.29 Introduction to Network Automation Tools</h2>
   </body>
 </html>
