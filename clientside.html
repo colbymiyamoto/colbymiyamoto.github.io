@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client side Information</title>
+  <style>
+    html, body{
+        padding: 0;
+        margin: 0;
+    }
+    html{
+        height: 100%;
+    }
+    body{
+        min-height: 100%;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    function Coordinate(event) {
+        var x=event.clientX;
+        var y=event.clientY;
+        document.getElementById("X").value=x;
+        document.getElementById("Y").value=y;
+    }
+    function getBrowserInfo() {
+      var browserInfo = {
+        version: navigator.appVersion,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        cookieEnabled: navigator.cookieEnabled,
+        deviceMemory: navigator.deviceMemory,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        languages: navigator.languages
+      };
+      return browserInfo;
+    }
+    function getNetworkInformation() {
+        return new Promise(function(resolve, reject) {
+            if ('connection' in navigator && 'downlink' in navigator.connection) {
+                var connection = navigator.connection;
+                
+                var networkInfo = {
+                    effectiveType: connection.effectiveType,
+                    downlink: connection.downlink,
+                    rtt: connection.rtt,
+                    saveData: connection.saveData
+                };
+                resolve(networkInfo);
+            } 
+            else {
+                reject('Network Information API not supported.');
+            }
+        });
+    }
+    function displayAllInfo() {
+      // Client browser information
+      var browserInfo = getBrowserInfo();
+      var browserinfoString =
+                       'Version: ' + browserInfo.version + '<br>' +
+                       'User Agent: ' + browserInfo.userAgent + '<br>' +
+                       'Platform: ' + browserInfo.platform + '<br>' +
+                       'Cookies enabled: ' + browserInfo.cookieEnabled + '<br>' +
+                       'Memory: ' + browserInfo.deviceMemory + 'GB (max display value is 8)<br>' +
+                       'Logical Processor Cores: ' + browserInfo.hardwareConcurrency + '<br>' +
+                       'Languages: ' + browserInfo.languages + '<br>';
+
+      document.getElementById('browserInfo').innerHTML = browserinfoString;
+      // Client time and date info
+      document.getElementById('timeInfo').innerHTML= 'Date/Time: ' + new Date() + '<br>';
+      // Client network information
+      var networkInfo = getNetworkInformation();
+      var networkInfostring = 'Effective Type: ' + networkInfo.effectiveType + '<br>' +
+                              'Downlink: ' + networkInfo.downlink + '<br>' +
+                              'RTT: ' + networkInfo.rtt + '<br>' +
+                              'Save Data: ' + networkInfo.saveData + '<br>'
+      document.getElementById('networkInfo').innerHTML = networkInfostring
+      // Ajax ipinfo API call to return IP address
+      $.get("https://ipinfo.io", function(response) {
+        document.getElementById('ipinfo').innerHTML = '<b>Public IP Address: ' + response.ip + '</b><br>';
+      }, "json")
+      // Client screen resolution
+      document.getElementById('screenInfo').innerHTML = 'Screen resolution: ' + screen.width + ' x ' + screen.height + '<br>';
+      // Client screen color depth
+      document.getElementById('colordepthInfo').innerHTML = 'Color depth: ' + screen.colorDepth + '<br>';
+      // Client protocol (HTTP or HTTPS)
+      document.getElementById("protocolInfo").innerHTML = 'Web protocol: ' + window.location.protocol + '<br>';
+      // Client remote port of web host
+      document.getElementById("remoteportInfo").innerHTML = 'Remote Port: ' + window.location.port + '<br>';
+      // Client remote hostname
+      document.getElementById("remotehostnameInfo").innerHTML = 'Remote hostname: ' + window.location.hostname + '<br>';
+    }
+  </script>
+</head>
+<body onload="displayAllInfo()", onmousemove="Coordinate(event)">
+  <center>
+    <h1>Your client side information</h1>
+    <div id="browserInfo"></div>
+    <div id="timezoneInfo"></div>
+    <div id="dateInfo"></div>
+    <div id ="timeInfo"></div>
+    <div id ="networkInfo"></div>
+    <div id="ipinfo"></div>
+    <div id="screenInfo"></div>
+    <div id="colordepthInfo"></div>
+    <div id="protocolInfo"></div>
+    <div id="remoteportInfo"></div>
+    <div id="remotehostnameInfo"></div>
+    <h3>Real-time mouse coordinates</h3>
+    <b>X-coordinate</b>
+    <input type="text" id="X">
+    <br>
+    <br>
+    <b>Y-coordinate</b>
+    <input type="text" id="Y">
+  </center>
+</body>
+</html>
