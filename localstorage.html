@@ -4,6 +4,8 @@
   <title>Client side Information</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./css/skeleton.css" rel="stylesheet">
+  <link href="./css/normalize.css" rel="stylesheet">  
   <style>
     html, body{
         padding: 0;
@@ -22,6 +24,9 @@
         list-style-type: none;
         text-align: left;
         display: inline-block;
+    }
+    .listRow:hover {
+      background:gray;
     }
   </style>
   <script>
@@ -75,7 +80,7 @@
           // Create list element
           var li = document.createElement('li');
           // Set index so we don't need to figure it out later
-          li.innerHTML = ' <button onclick="removeText(' + index + ')">x</button> ' + text;
+          li.innerHTML = ' <button class="listRow" onclick="removeText(' + index + ')">' + text + '</button>';
           // Add list
           textList.appendChild(li);
         });
@@ -94,8 +99,8 @@
     <h1>Web Storage API - LocalStorage</h1>
     <p>Store data locally with JavaScript. Persists even after this page is closed.</p>
     <input type="text" id="textInput" placeholder="Enter text">
-    <button onclick="addText()">Add</button>
-    <button onclick="clearStorage()">Clear All</button>
+    <button class="button" onclick="addText()">Add</button>
+    <button class="button" onclick="clearStorage()">Clear All</button>
   </header>
   <center>
     <ul id="textList"></ul>
