@@ -64,8 +64,27 @@
       displayTexts();
     }
 
+    // Clear localStorage
+    function clearStorage() {
+      localStorage.removeItem('savedTexts');
+      displayTexts();
+    }
+
+    // Make enter key work for the add button
+    function enableEnterKey() {
+      var addInput = document.getElementById("textInput");
+      addInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          document.getElementById("addBtn").click();
+        }
+      });
+    }
+
     // Display the contents of localStorage
     function displayTexts() {
+      // Allows enter key to work so you don't have to click on the 'Add' button
+      enableEnterKey();
       // Get localStorage 'savedTexts' item
       var storedTexts = localStorage.getItem('savedTexts');
       // Parse localStorage item into array
@@ -87,11 +106,6 @@
       }
     }
 
-    // Clear localStorage
-    function clearStorage() {
-      localStorage.removeItem('savedTexts');
-      displayTexts();
-    }
   </script>
 </head>
 <body onload="displayTexts();">
@@ -99,7 +113,7 @@
     <h1>Web Storage API - LocalStorage</h1>
     <p>Store data locally with JavaScript. Persists even after this page is closed.</p>
     <input type="text" id="textInput" placeholder="Enter text">
-    <button class="button" onclick="addText()">Add</button>
+    <button class="button" id="addBtn" onclick="addText()">Add</button>
     <button class="button" onclick="clearStorage()">Clear All</button>
   </header>
   <center>
