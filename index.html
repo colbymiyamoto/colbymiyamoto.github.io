@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>BSOD</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html {
+            font-size: 100%;
+            font-family: "Segoe UI";
+            color: white;
+            background: #0e6ab5;
+        }
+        p {
+            margin: auto;
+            max-width: 80%;
+            font-size: 2.6em;
+            font-weight: lighter;
+            filter:blur(0.6px);
+            line-height: 1.5em;
+        }
+        #bsod {
+            margin: 0 auto;
+            max-width: 90em;
+            margin-top: 6em;
+        }
+        #sadface {
+            font-family: "Segoe UI Emoji";
+            font-size: 13em;
+            margin-right: 0.77em;
+        }
+        #errormsg {
+            font-size: 1.38em;
+            margin-top: 4em;
+        }
+        @media only screen and (max-width: 1350px) {
+            html {
+                font-size: 70%;
+            }
+        }
+    </style>
+</head>
+<body >
+    <div id="bsod">
+        <p id="sadface">:(</p>
+        <p>Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you. (0% complete)</p>
+        <p id="errormsg">If you'd like to know more, you can search online later for this error: HAL_INITIALIZATION_FAILED</p>
+    </div>
+</body>
+</html>
