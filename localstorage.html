@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>Client side Information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body{
+        padding: 0;
+        margin: 0;
+    }
+    html{
+        height: 100%;
+    }
+    header{
+        text-align: center;
+    }
+    body{
+        min-height: 100%;
+    }
+    ul {
+        list-style-type: none;
+        text-align: left;
+        display: inline-block;
+    }
+  </style>
+  <script>
+    // Add text to localStorage
+    function addText() {
+      var inputText = document.getElementById('textInput').value;
+      // If input not just whitespace
+      if (inputText.trim() !== '') {
+        // Get localStorage 'savedTexts' item
+        var storedTexts = localStorage.getItem('savedTexts');
+        // Parse localStorage item into array
+        var textsArray = storedTexts ? JSON.parse(storedTexts) : [];
+        // Add input into array
+        textsArray.push(inputText);
+        // Save changes to localStorage
+        localStorage.setItem('savedTexts', JSON.stringify(textsArray));
+        // Display updated localStorage
+        displayTexts();
+        // Reset input field back to nothing
+        document.getElementById('textInput').value = '';
+      }
+    }
+
+    // Remove text from localStorage
+    function removeText(index) {
+      // Get localStorage 'savedTexts' item
+      var storedTexts = localStorage.getItem('savedTexts');
+      // Parse localStorage item into array
+      var textsArray = JSON.parse(storedTexts);
+      // Remove input at the specified index
+      textsArray.splice(index, 1);
+      // Save changes to localStorage
+      localStorage.setItem('savedTexts', JSON.stringify(textsArray));
+      // Display updated localStorage
+      displayTexts();
+    }
+
+    // Display the contents of localStorage
+    function displayTexts() {
+      // Get localStorage 'savedTexts' item
+      var storedTexts = localStorage.getItem('savedTexts');
+      // Parse localStorage item into array
+      var textsArray = JSON.parse(storedTexts);
+      // Get div 'textList'
+      var textList = document.getElementById('textList');
+      // Reset textList display
+      textList.innerHTML = '';
+      // Iterate through array and create a list display in div
+      if (textsArray) {
+        textsArray.forEach(function(text, index) {
+          // Create list element
+          var li = document.createElement('li');
+          // Set index so we don't need to figure it out later
+          li.innerHTML = ' <button onclick="removeText(' + index + ')">x</button> ' + text;
+          // Add list
+          textList.appendChild(li);
+        });
+      }
+    }
+
+    // Clear localStorage
+    function clearStorage() {
+      localStorage.removeItem('savedTexts');
+      displayTexts();
+    }
+  </script>
+</head>
+<body onload="displayTexts();">
+  <header>
+    <h1>Web Storage API - LocalStorage</h1>
+    <p>Store data locally with JavaScript. Persists even after this page is closed.</p>
+    <input type="text" id="textInput" placeholder="Enter text">
+    <button onclick="addText()">Add</button>
+    <button onclick="clearStorage()">Clear All</button>
+  </header>
+  <center>
+    <ul id="textList"></ul>
+  </center>
+</body>
+</html>
