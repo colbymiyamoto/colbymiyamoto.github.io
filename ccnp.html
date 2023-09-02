@@ -244,7 +244,44 @@
 	<p>EIGRP packet types - Hello, request, update, query, reply</p>
 	<p>Route summarization - EIGRP scalability depends on summarization, done on interface basis.</p>
 	<h2>Ch.8 OSPF</h2>
+	<p>Link-state advertisements LSA's - link state and metric, stored in LSDB. Flooded through OSPF domain. All OSPF routers have LSDB copy. Uses Dijkstra SPF.</p>
+	<p>Shortest Path First Tree (SPF Tree or SPT).</p>
+	<p>Area 0 - all areas conenct to this. Each OSPF process has its own unique DB, OSPF processes don't need to match across routers. Uses IP protocol 89 and AD 110.</p>
+	<ul>
+		<li>AllSPFRouters - 224.0.0.5 01:00:5e:00:00:05</li>
+		<li>AllDRouters - 224.0.0.6 01:00:5e:00:00:06</li>
+	</ul>
+	<p>OSPF Hello packets for discover/maintaining neighbors, sends to 224.0.0.5. Router ID (RID) or neighbor ID. LSA and OSPF traffic increases as OSPF adjacencies increase.</p>
+	<p>Designated router (DR) manages adjacency state with all routers on that broadcast network to prevent scalability issues. So only full adjacencies form with DR router and Backup DR (BDR).</p>
+	<p>Can configure globally on router ID or per interface, unlike EIGRP need to specify area for each network.</p>
+	<p>RID uses highest IP of any loopbacks, else highest IP of any other active interface - doesn't change unless OSPF process restarts. Best to static RID.</p>
+	<ul>
+		<li>Unique RID's and common interface IP's</li>
+		<li>Matching MTU's, Area ID's, DR enablement, hello/dead timers, auth type and credentials, area type flags (Stub NSSA etc.)</li>
+	</ul>
+	<p>No distinction for cost FastEthernet and up</p>
 	<h2>Ch.9 Advanced OSPF</h2>
+	<p>Area Border Routers (ABR) - connected to Area 0 and another area.</p>
+	<p>Area ID - 32 bit field</p>
+	<ul>
+		1 Router - Advertises LSA that originates within an area, doesn't flood outside original OSPF area
+		2 Network - Advertises multi-access network segments attached to a DR, doesn't flood outside original OSPF area, always sent by DR's - used to determine net mask
+		3 Summary - Advertises network prefixes originating from a different area - created from type 1 LSA when going outside origin area by the ABR
+		4 ASBR summary - Advertises summary LSA for a specific ASBR
+		5 AS external - Advertises LSA for redistributed routes
+		7 NSSA external - Advertises redistributed routes in NSSA's
+	</ul>
+	<p>LSA age increments by the second, purges at 1 hr/3600s, new LSA sent out at 30 min/1800s with age 0.</p>
+	<b>Three rules for creating type 3 LSA's by ABR's</b>
+	<ul>
+		<li>Type 1 LSA's create type 3 into backbone and nonbackbone areas</li>
+		<li>Type 3 LSA's from area 0 are for nonbackbone area</li>
+		<li>Type 3 LSA's from nonbackbone area only insert into LSDB for source area.</li>
+	</ul>
+	<p>Path selection - intra-area, interarea, then external routes preferred</p>
+	<p>Equal-Cost Multipathing (ECMP) - Max 4 paths by default</p>
+	<p>Interarea summarization - Type 1 LSA's get summarized into Type 3's coming from the source area to ABR</p>
+	<p>Distribute lists - an ACL to filter routes from being installed in local routing table</p>
 	<h2>Ch.10 OSPFv3</h2>
 	<h2>Ch.11 BGP</h2>
 	<h2>Ch.12 Advanced BGP</h2>
@@ -265,6 +302,55 @@
 		<li>When PIM is configured in dense mode, it is mandatory to choose one or more routers to operate as rendezvois points (RP) - FALSE</li>
 	</ul>
 	<h2>Ch.14 QoS</h2>
+	<p>For bandwidth, latency/jitter, packet loss</p>
+	<b>Network latency factors</b>
+	<ul>
+		<li>Propagation delay (Fixed) - delay for packet to go from src to dest</li>
+		<li>Serialization delay (Fixed) - delay for packets to get onto a link</li>
+		<li>Processing delay (Fixed) - delay for packet to go from input int to output int</li>
+		<li>Delay variation (Variable)</li>
+	</ul>
+	<ul>QoS implementation models</ul>
+	<ul>
+		<li>Best effort - no QoS</li>
+		<li>Integrated services (IntServ) - Application control bandwidth reservation. Uses resource reservation protocol (RSVP), doesn't scale on large networks</li>
+		<li>Differentiated Services (DiffServ) - Class based QoS control</li>
+	</ul>
+	<p>Classification - categorizes packets into a class. L2 - 802.1Q/CoS bits, L3 - DSCP, IPP</p>
+	<p>Marking - changing field within packet/frame, the 802.1Q TPID and TCI 2 byte fields.</p>
+	<p>First 3 bits of ToS field is IP Precedence (IPP) - 6-bit DSCP field and 2-bit Explicit Congestion Notification (ECN) field.</p>
+	<b>Four DSCP Per-Hop Behaviors (PHB)</b>
+	<ul>
+		<li>Class Selector (CS) last 3-bits of DSCP. Eight classes, CS0-CS7.</li>
+		<li>Default Forwarding (DF) 000000 best effort</li>
+		<li>Assured Forwarding (AF) guarantees certain amount of bandwidth</li>
+		<li>Expedited Forwarding (EF)</li>
+	</ul>
+	<p>Scavenger class - less than best effort, marked as CS1</p>
+	<p>Trust Boundary - Should be close to endpoint as possible. e.g, hardphones zero out QoS from connecting PC to priortize audio to switch.</p>
+	<ul>
+		<li>Platinum Voice - 802.1p Tag 5, DSCP 46(EF)</li>
+		<li>Gold Video - 802.1p Tag 4, DSCP 34(AF41)</li>
+		<li>Silver best effort/default - 802.1p Tag 0, DSCP 0</li>
+		<li>Bronze Background - 802.1p Tag 1, DSCP 10(AF11)</li>
+	</ul>
+	<p>Policers - Drops or re-marks traffic passing threshold</p>
+	<p>Shapers - Buffer/delay trffic passing threshold</p>
+	<b>Congestion management</b>
+	<ul>
+		<li>FIFO - all traffic belongs to same class</li>
+		<li>Round robin - One packet sent per queue at a time, can't prioritize traffic</li>
+		<li>Weighted round robin (WRR) - Interface bandwidth allocated dependent on weight assigned per queue</li>
+		<li>Custom queueing (CQ) - Cisco proprietary WRR, uses 16 queue's with  round-robin scheduler and FIFO queueing. Causes long delays and has same issues with regular FIFO per queue.</li>
+		<li>Priority queueing (PQ) - Uses 4 queue's, high/medium/normal/low. FIFO per queue - only goes to next queue after highest is empty.</li>
+		<li>Weighted fair queueing (WFQ) - divides bandwidth evenly by weighted IPP flows, better for higher priority flows but can't guarantee fixed-bandwidth</li>
+		<li>Class-based weighted fair queueing (CBWFQ) - Max 256 queue's with 256 traffic classes. Queue serviced depending on bandwidth assigned to class. Classification dependent on QoS, protocols, ACL,s input interfaces. Suitable for non-real-time data traffic.</li>
+		<li>Low-latency queueing (LLQ) - CBWFQ combined with PQ - for real-time traffic like voice. Real-time traffic serviced by priority queue before doing other CBWFQ queues.</li>
+	</ul>
+	<b>Congestion avoidance</b>
+	<p>Tail drop - default packet dropping mechanism, drops everythign when queue is full. Can cause TCP global synchronization</p>
+	<p>Random early detection (RED) - Randomly dropping packets before queue buffers get full, does this when queue threshold is exceeded.</p>
+	<p>Weighted RED (WRED) - Packet drops are manipulated by traffic weights via IPP or DSCP.</p>
 	<h2>Ch.15 IP Services</h2>
 	<h2>Ch.16 Overlay Tunnels</h2>
 	<h2>Ch.17 Wireless Signals and Modulation</h2>
