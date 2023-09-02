@@ -352,7 +352,34 @@
 	<p>Random early detection (RED) - Randomly dropping packets before queue buffers get full, does this when queue threshold is exceeded.</p>
 	<p>Weighted RED (WRED) - Packet drops are manipulated by traffic weights via IPP or DSCP.</p>
 	<h2>Ch.15 IP Services</h2>
+	<b>Time synchronization</b>
+	<ul>
+		<li>Password management for time intervals</li>
+		<li>Encryption key exchanges</li>
+		<li>Certificate validity</li>
+		<li>Logs</li>
+	</ul>
+	<b>NTP</b>
+	<p>UDP port 123. Stratum 1 is most accurate server. NTP peer to treat as equal - syncs to each other.</p>
+	<b>First-Hop Redundancy Protocol (FHRP)</b>
+	<ul>
+		<li>Host Standby Router Protocol (HSRP) - No preemption, UDP hello. Virtual MAC with virtual IP. 224.0.0.102 0000.0c9f.f000 - 0000.0c9f.ffff</li>
+		<li>Virtual Router Redundancy Protocol (VRRP) - Preemption, 224.0.0.18 0000.5e00.01xx.  Master router/backup routers.</li>
+		<li>Gateway Load Balancing Protocol (GLBP) - Active virtual gateway (AVG) and Activate virtual forwarder (AVF).</li>
+	</ul>
+	<b>NAT</b>
+	<p>Inside global, inside local, outside local, outside global</p>
+	<p>ACL for range to NAT from, another ACL as the NAT pool to do "ip nat inside source list SRC_ACL pool ACL_POOL. Set interfaces for "ip nat outside/inside"</p>
+	<p>Port NAT (PAT) - just use NAT pool ACL and interface to overload. "ip nat source inside soruce list ACL_SRC int gi0/0 overload"</p>
 	<h2>Ch.16 Overlay Tunnels</h2>
+	<ul>
+		<li>Generic Routing Encapsulation (GRE)</li>
+		<li>IP Security (IPsec) - framework of open standards to make VPNs</li>
+		<li>Locator ID/Separation Protocol (LISP)</li>
+		<li>Virtual Extensible LAN (VXLAN)</li>
+		<li>Multiprotocol Label Switching (MPLS)</li>
+	</ul>
+	<p>You can nest overlay tunnels, e.g, MPLS over GRE over IPsec</p>
 	<h2>Ch.17 Wireless Signals and Modulation</h2>
 	<h2>Ch.18 Wireless Infrastructure</h2>
 	<h2>Ch.19 Understanding Wireless Roaming and Location Services</h2>
