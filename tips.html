@@ -48,13 +48,14 @@
         <li><a href="https://www.cisco.com/c/en/us/support/ios-nx-os-software/ios-xe-17/products-installation-and-configuration-guides-list.html">IOS XE 17 Guide</a></li>
         <li><a href=""></a></li>
     </ul>
+
+    <h3>General Use Catch-All</h3>
     <textarea cols="91" rows="25" readonly="true" spellcheck="false">
-    ! General Use Catch-All
     term length 0
     show clock
     dir flash:
-    dir bootflash:
-    dir sdflash: ! For IE4k
+    dir bootflash: ! For ISR/C9400/C4500
+    dir sdflash: ! For IE4K
     show flash all
     ! show startup
     show run
@@ -111,7 +112,8 @@
     show ntp status
     show log
     show clock
-    
+</textarea>
+<textarea cols="91" rows="25" readonly="true" spellcheck="false">
     ! L1 check
      show ver
      show switch
@@ -142,7 +144,12 @@
      show ip ospf neighbors
      show ip eigrp neighbors
      show ip bgp
-    
+     
+    ! AAA Authentication
+     show aaa servers
+     show tacacs
+     show authentication session
+
     ! VPN
      show crypto session brief
      show crypto ipsec sa count
