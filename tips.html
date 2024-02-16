@@ -26,18 +26,21 @@
     <li><a href="https://4sysops.com/archives/how-to-use-curl-on-windows/">curl</a></li>
     <li><a href="https://learn.microsoft.com/en-us/windows-server/networking/technologies/pktmon/pktmon">Packet Monitor (pktmon)</a></li></li>
     <li><a href="https://learn.microsoft.com/en-us/windows-server/networking/technologies/netsh/netsh-contexts">Netsh</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat">Netstat</a></li>
 </ul>
 <ul>
-    <li>netsh wlan show wlan report</li>
+    <li>netsh wlan show wlanreport (C:\ProgramData\Microsoft\Windows\WlanReport\wlan-report-latest.html)</li>
     <li>netsh wlan show all</li>
 </ul>
-<h3>Built-in Windows Tools</h3>
+<h3>Windows Tools</h3>
     <ul>
         <li><a href="https://learn.microsoft.com/en-us/microsoft-edge/devtools-guide-chromium/network/">Microsoft Edge - Inspect network activity</a></li>
         <li><a href="https://techcommunity.microsoft.com/t5/ask-the-performance-team/windows-performance-monitor-overview/ba-p/375481">Performance Monitor and Reliability Monitor (perfmon)</a></li>
         <li><a href="https://learn.microsoft.com/en-us/shows/inside/event-viewer?source=recommendations">Event Viewer</a></li>
-        <li><a href=""></a></li>
+        <li><a href="https://learn.microsoft.com/en-us/microsoft-365/enterprise/office-365-network-mac-perf-onboarding-tool?view=o365-worldwide">O365 Network Test (Need to download exe)</a></li>
     </ul>
+<h3>Linux Tools</h3>
+<li>MyTraceRoute (MTR)</li>
 <h3>Cisco</h3>
     <ul>
         <li><a href="https://www.cisco.com/c/en/us/tech/wan/t1-e1-t3-e3/index.html">T1/E1 & T3/E3</a></li>
@@ -45,5 +48,161 @@
         <li><a href="https://www.cisco.com/c/en/us/support/ios-nx-os-software/ios-xe-17/products-installation-and-configuration-guides-list.html">IOS XE 17 Guide</a></li>
         <li><a href=""></a></li>
     </ul>
+    <textarea cols="91" rows="25" readonly="true" spellcheck="false">
+    ! General Use Catch-All
+    term length 0
+    show clock
+    dir flash:
+    dir bootflash:
+    dir sdflash: ! For IE4k
+    show flash all
+    ! show startup
+    show run
+    show inventory
+    show version
+    show boot
+    show switch
+    ! show policy-map
+    ! show policy-map interface
+    show policy-map int brief timestamp
+    show policy-map control-plane all
+    show ip name-servers
+    show ip domain-name
+    show ip access-lists
+    show ip sla summary
+    show ip int brief | e unassigned
+    show ip dhcp snooping
+    show ip dhcp conflict
+    show ip dhcp binding
+    show ip bgp
+    show ip eigrp neighbors
+    show ip multicast
+    show ip multicast interface
+    show ip igmp interface
+    show ip igmp groups
+    show ip igmp snooping
+    show ip pim rp mapping
+    show ip pim autorp
+    show ip pim interface
+    show ip pim neighbor
+    show ip pim tunnel
+    show ip route summary
+    show ip route
+    show route-map
+    ! show ip cef
+    show ip arp
+    show vlan
+    show vtp status
+    show spanning-tree root
+    show spanning-tree summary
+    show cdp neighbors
+    show cdp neighbors detail
+    show etherchannel summary
+    show int trunk
+    show int status
+    show int description
+    show mac address-table | e CPU
+    show mac address-table count
+    show env all
+    show platform resource
+    show power inline
+    show errdisabler recovery
+    show ntp associations
+    show ntp status
+    show log
+    show clock
+    
+    ! L1 check
+     show ver
+     show switch
+     show license
+     show inventory
+     show power
+     show power inline
+    
+    ! L2 Check
+     show int status
+     show int trunk
+     show vlan brief
+     show vtp status
+     show cdp neighbors
+     show port-security
+     show spanning-tree root
+     show etherchannel summary
+     show mac address-table
+     show mac address-table count
+    
+    ! L3 Check
+     show ip arp
+     show standby
+     show route-map
+     show access-lists
+     show ip sla summary
+     show ip dhcp binding
+     show ip ospf neighbors
+     show ip eigrp neighbors
+     show ip bgp
+    
+    ! VPN
+     show crypto session brief
+     show crypto ipsec sa count
+     show crypto isakmp sa
+     show crypto ikev2 sa
+     show crypto ikev2 policy
+     show crypto ikev2 proposal
+    
+    ! Filesystem Check
+     show file systems
+     show file descriptors
+     show flash:
+     show boot
+    
+    ! NTP Check
+     show clock
+     show ntp status
+     show ntp associations
+     show ntp config
+    
+    ! Netflow
+     show flow monitor all
+     show flow exporter
+     show flow config log
+    
+    ! Troubleshooting
+     show log
+     show users
+     show env all
+     show tcp brief
+     show data-corruption
+     show memory statistics
+     show aaa method-lists all
+     show interfaces status err-disabled
+    
+    ! Long Checks
+     show vlan
+     show stacks
+     show interfaces
+     show controllers
+     show process memory
+     show process cpu history
+     show int summary
+     show interfaces switchport
+     show spanning-tree
+     show ipc nodes
+     show ipc ports
+     show ipc status
+     show cef linecard
+     show ips mds stats linecard
+     show sdm prefer
+     show platform port-asic mvid
+     show platform messaging application summary
+     show platform vlan refcount
+     show platform pm stack-view
+     show platform port-asic version
+     show platform port-asic receive port-lockup
+     show platform tcam util asic all
+     show platform dl detail
+     show controllers power inline
+    </textarea>
 </body>
 </html>
